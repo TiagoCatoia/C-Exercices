@@ -6,7 +6,7 @@ Este repositório contém os exercícios de C desenvolvidos durante o 2º semest
 
 O repositório está organizado da seguinte forma:
 
-- Cada aula/conteúdo possui uma pasta dedicada dentro da pasta C Exercices contendo os exercícios. A estrutura pode ser semelhante a esta:
+- Cada aula/conteúdo possui uma pasta dedicada dentro da pasta 'C Exercices' contendo os exercícios. A estrutura pode ser semelhante a esta:
 
 - C Exercices/1 Introdução a C/
   - Triangulos.c
