@@ -51,7 +51,7 @@ main(){
 		while (y < contador_dez){
 			if (aposta[i] == dez_sort[y]){
 				acertos ++;
-				break; //sai do loop interno quando encontrar um acerto
+				break; //sai do loop interno quando encontrar um acerto, pode ser feito com booleana
 			}
 			y ++;
 		}

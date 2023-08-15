@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <locale.h>
+#include <time.h>
 /*  Lista de Exercícios – Algoritmos e Programação II
 
 EXERCICIO 7 da lista
@@ -18,37 +19,68 @@ Matriz 2
 52 93 61 30
 */
 
+#define True 1
+#define False 0
+
 main(){
 	setlocale(LC_ALL, "Portuguese");
-	int linha = 0, coluna = 0, matriz[3][3], matrizResultante[3][3], somaElementosLinha = 0, somaDasLinhas[3], contadorLinha = 1, contadorColuna = 1;
+	int linha = 0, coluna = 0, a[3][4], b[3][4], contadorLinha = 1, contadorColuna = 1, numeroSorteado, maximo = 101;
+	int contadorNumerosJaSorteadosA = 0, contadorNumerosJaSorteadosB = 0;
+	int contadorVetor = 0, numerosJaSorteadosDeA[12], numerosJaSorteadosDeB[12];
 	
-	printf("Digite os elementos de uma matriz 3 x 3:");
-	for (linha=0; linha<3; linha++, contadorLinha++){
-		printf("\n%dº Linha\n", contadorLinha);
-		for (coluna=0, contadorColuna=1; coluna<3 ; coluna++, contadorColuna++){
+	srand(time(NULL)); // Inicialize a semente do gerador de números aleatórios com o valor do tempo atual (REINICIA OS VALORES SORTEADOS)
+	
+    printf("Gerando a primeira matriz...\n");
+    for (linha = 0; linha < 3; linha++, contadorLinha++) {
+        printf("%dª Linha\n", contadorLinha);
+        for (coluna = 0, contadorColuna = 1; coluna < 4; coluna++, contadorColuna++) {
+            printf("%dª Coluna: ", contadorColuna);
+            numeroSorteado = rand() % maximo;
+            for (contadorVetor = 0; contadorVetor < contadorNumerosJaSorteadosA; contadorVetor++) {
+                if (numeroSorteado == numerosJaSorteadosDeA[contadorVetor]) {
+                    numeroSorteado = rand() % maximo;
+                    contadorVetor = 0;
+                }
+            }
+            printf("%d\n", numeroSorteado);
+            a[linha][coluna] = numeroSorteado;
+            numerosJaSorteadosDeA[contadorNumerosJaSorteadosA] = numeroSorteado;
+            contadorNumerosJaSorteadosA++;
+        }
+        printf("\n");
+    }
+	
+	printf("Gerando a segunda matriz...\n");
+	for (contadorLinha = 1, linha=0; linha<3; linha++, contadorLinha++){
+		printf("%dº Linha\n", contadorLinha);
+		for (coluna=0, contadorColuna=1; coluna<4 ; coluna++, contadorColuna++){
 			printf("%dº Coluna: ", contadorColuna);
-			scanf("%d", &matriz[linha][coluna]);
+			numeroSorteado = rand() % maximo;
+			for (contadorVetor = 0; contadorVetor < contadorNumerosJaSorteadosB; contadorVetor++){  // define o tamanho do vetor sendo a quantia de números já adicionados nele (max 12)
+				if (numeroSorteado == numerosJaSorteadosDeB[contadorVetor]){
+					numeroSorteado = rand() % maximo; // sorteira um novo número, já que o outro já foi sorteado
+					contadorVetor = 0; // faz com que o loop se reicinie depois de sortear um novo número, para verificar se esse novo número se repete
+				}
+			}
+			printf("%d\n", numeroSorteado);
+			b[linha][coluna] = numeroSorteado;
+			numerosJaSorteadosDeB[contadorNumerosJaSorteadosB] = numeroSorteado;
+			contadorNumerosJaSorteadosB ++;
 		}
-	}
-	
-	for (linha = 0, coluna = 0; linha<3; linha++){
-		for (somaElementosLinha = 0, coluna = 0; coluna<3; coluna++){
-			somaElementosLinha += matriz[linha][coluna];
-		}
-		somaDasLinhas[linha] = somaElementosLinha;
-	}
-	
-	for (linha = 0, coluna = 0; linha<3; linha++){
-		for (coluna = 0; coluna<3; coluna++){
-			matrizResultante[linha][coluna] = (matriz[linha][coluna] * somaDasLinhas[linha]);
-		}
-	}
-	
-	printf("\nMatriz Resultante: ");
-	for (linha = 0, coluna = 0; linha<3; linha++){
 		printf("\n");
-		for (coluna = 0; coluna<3; coluna++){
-			printf("%d  ", matrizResultante[linha][coluna]);
+	}
+	
+	int contadorVetorA = 0, contadorVetorB = 0, numeroIgual = False;
+	printf("\nNúmeros existentes nas duas matrizes: ");
+	for (contadorVetorA = 0; contadorVetorA < 12; contadorVetorA++){ // o tamanho 12 equivale a quantidade de números na matriz a/b (ou seja, o tamanho dos vetores), assim preciso verificar se cada elemento do vetor A existe no vetor B
+		for(contadorVetorB = 0; contadorVetorB < 12; contadorVetorB++){
+			if (numerosJaSorteadosDeA[contadorVetorA] == numerosJaSorteadosDeB[contadorVetorB]){
+				printf("%d | ", numerosJaSorteadosDeA[contadorVetorA]);
+				numeroIgual = True;
+			}
 		}
+	}
+	if (numeroIgual == False){
+		printf("\nAs matrizes não possuem números iguais!");
 	}
 }
