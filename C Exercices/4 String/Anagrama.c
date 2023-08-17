@@ -1,68 +1,100 @@
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
-/*  Lista de Exercícios – Algoritmos e Programação II
-
-EXERCICIO 10 da lista
-Um anagrama é uma palavra que é feita a partir da transposição das letras de outra 
-palavra ou frase. Por exemplo, “Iracema” é um anagrama para “America”. 
-Escreva um programa que decida se uma string é um anagrama de outra string, 
-ignorando os espaços em branco. O programa deve considerar maiúsculas e 
-minúsculas como sendo caracteres iguais, ou seja, “a” = “A”
-*/
+#include <ctype.h>
 #define True 1
 #define False 0
+/*  Lista de ExercÃ­cios â€“ Algoritmos e ProgramaÃ§Ã£o II
 
+EXERCICIO 11 da lista
+FaÃ§a um programa que receba um texto (string) como entrada e criptografa-o de 
+acordo com a tabela a seguir. O programa deverÃ¡ imprimir o texto criptografado.
+Tabela de criptografia:
+	RepresentaÃ§Ã£o:
+	-------------------------
+	|Vogais @				 |
+	-------------------------
+	|Consoantes #			 |
+	-------------------------
+	|Caracteres(@,#,$,%,etc) |
+	|especiais %			 |
+	-------------------------
+	|DÃ­gitos 0-9 $			 |
+	-------------------------
+	|EspaÃ§o *				 |
+	-------------------------
+Exemplo:
+Texto de entrada: Aprendendo a programar em C na disciplina de APR2
+SaÃ­da: 
+@##@##@##@*@*##@##@#@#*@#*#*#@*#@##@##@#@*#@*@##$
+
+
+ EXPLICAÃ‡ÃƒO Array de Ponteiros para Caracteres (Strings)
+char *vogais = "aeiou";:
+Nesse caso, vocÃª estÃ¡ criando um ponteiro para caracteres (char *) chamado vogais e inicializando-o com a string "aeiou".
+Isso significa que vogais apontarÃ¡ para o primeiro caractere da string (ou seja, 'a').
+A string "aeiou" Ã© armazenada como uma sequÃªncia de caracteres na memÃ³ria, terminada pelo caractere nulo ('\0').
+O ponteiro vogais aponta para o primeiro caractere dessa sequÃªncia.
+
+char *vogais[] = {"a", "e", "i", "o", "u"};:
+Neste caso, vocÃª estÃ¡ criando um array de ponteiros para caracteres (char *) chamado vogais e inicializando-o com um conjunto de strings.
+Cada elemento do array Ã© um ponteiro que aponta para a primeira letra de cada uma das strings "a", "e", "i", "o" e "u".
+Assim, vocÃª tem um array que armazena vÃ¡rios ponteiros para strings diferentes.
+*/
 main(){
 	setlocale(LC_ALL, "Portuguese");
-	int anagrama = True, i, t, posicaoPrimeiraFrase[100], posicaoSegundaFrase[100];
-	char primeiraFrase[100], segundaFrase[100], letrasValores[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-	printf("Digite duas palavras ou frases para verificar se são anagramas");
-	printf("\nPrimeira frase/palavra: ");
-	gets(primeiraFrase);
-	printf("Segunda frase/palavra: ");
-	gets(segundaFrase);
+	char texto[100];
+	int tamanhoTexto, i = 0, t = 0, traduzido = False;
+	// Criptografias
+    char vogais[] = "aeiou"; 
+    char consoantes[] = "bcdfghjklmnpqrstvwxyz";
+    char caracteresEspeciais[] = "!@#$%&*()-+=[]{};:,./<>";
+    char digitos[] = "0123456789";
+    char espaco[] = " ";
 	
-	if (strlen(primeiraFrase) != strlen(segundaFrase)){
-		anagrama = False;
+	printf("Digite um texto para criptografar: ");
+	gets(texto);
+	
+	tamanhoTexto = strlen(texto);
+	for (i = 0; i < tamanhoTexto; i++){
+        texto[i] = tolower(texto[i]);
 	}
-	else{
-		// igualando os valores de maiusculo e minusculo transformando em números
-		for (i = 0; i < strlen(primeiraFrase); i++){
-			// letrasValores possui 26 índices minusculos + 26 maiusculos, somando 52 onde o a posição de um + 26 equivale ao maiusculos ex: a (indice: 0, + 26 = A), z (indice: 25, + 26 = Z)
-			for (t = 0; t < 26; t++){
-				if (primeiraFrase[i] == letrasValores[t] || primeiraFrase[i] == letrasValores[t+26]){
-					posicaoPrimeiraFrase[i] = t; // adiciona a posicao do valor da letra encontrada (sendo o mesmo para maiscula ou minuscula)
-				}
-				else if (primeiraFrase[i] == ' '){
-					posicaoPrimeiraFrase[i] = -1;
-				}
-			}
-			for (t = 0; t < 26; t++){
-				if (segundaFrase[i] == letrasValores[t] || segundaFrase[i] == letrasValores[t+26]){
-					posicaoSegundaFrase[i] = t;
-				}
+
+	for (i = 0; i < tamanhoTexto; i++){
+		traduzido = False;
+		for(t = 0; vogais[t] != '\0' && traduzido == False; t++){
+			if (texto[i] == vogais[t]){
+				printf("@");
+				traduzido = True;
 			}
 		}
-		for (i = 0; i < strlen(primeiraFrase); i++){
-			for (t = 0; t < strlen(segundaFrase); t++){
-				if (posicaoPrimeiraFrase[i] == posicaoSegundaFrase[t]){
-					posicaoPrimeiraFrase[i] = -1; // substituo o número equivalente a letra por -1 se em algum momento achar uma letra equivalente da primeira frase na segunda
-					break;
-				}
+		for(t = 0; consoantes[t] != '\0' && traduzido == False; t++){
+			if (texto[i] == consoantes[t]){
+				printf("#");
+				traduzido = True;
+			}	
+		}
+		/* comparaÃ§Ã£o texto[i] == caracteresEspeciais[t] nÃ£o funcionarÃ¡ corretamente para caracteres especiais,
+		porque o operador == compara caracteres individualmente e caracteres especiais podem ser representados por mais de um byte,
+		logo utilizo o strchr para verificar se texto[i] Ã© algum caractere especial. (#include <string.h>)
+		*/
+		for (t = 0; caracteresEspeciais[t] != '\0' && traduzido == False; t++) { 
+		    if (texto[i] == caracteresEspeciais[t]) {
+		        printf("%");
+		        traduzido = True;
+		    }
+		}
+		for(t = 0; digitos[t] != '\0' && traduzido == False; t++){
+			if (texto[i] == digitos[t]){
+				printf("$");
+				traduzido = True;
 			}
 		}
-		for (i = 0; i < strlen(primeiraFrase); i++){ // loop que verifica se todos os números foram substituidos por -1, se sim é um anagrama
-			if (posicaoPrimeiraFrase[i] != -1){
-				anagrama = False;
+		for(t = 0; espaco[t] != '\0' && traduzido == False; t++){
+			if (texto[i] == espaco[t]){
+				printf("*");
+				traduzido = True;
 			}
 		}
-	}
-	if (anagrama == False){
-		printf("\nNão formam um anagrama!");
-		}
-	else{
-		printf("\nFormam um anagrama!");
 	}
 }
