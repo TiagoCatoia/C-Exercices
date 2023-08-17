@@ -2,9 +2,9 @@
 #include <locale.h>
 #include <string.h>
 
-/*  EXERCICIO 3
-Faça um programa que leia 10 nomes, ordene-os de
-forma crescente e mostre-os na tela.
+/*  EXERCICIO PARA TREINAR
+FaÃ§a um programa que leia 10 nomes, ordene-os de
+forma crescente de tamanho.
 */
 
 main(){
@@ -34,6 +34,6 @@ main(){
 	}
 }
 /*
-Também podemos usar a função strcmp() para comparar as strings com base na ordem alfabética.
-Porém, precisaria criar um loop para encontrar a menor string em vez de comparar seus comprimentos.
+TambÃ©m podemos usar a funÃ§Ã£o strcmp() para comparar as strings com base na ordem alfabÃ©tica.
+PorÃ©m, precisaria criar um loop para encontrar a menor string em vez de comparar seus comprimentos.
 */
