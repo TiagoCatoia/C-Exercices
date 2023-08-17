@@ -9,7 +9,7 @@ forma crescente de tamanho.
 
 main(){
 	setlocale(LC_ALL, "Portuguese");
-	char nomes[5][50];
+	char nomes[10][50];
 	int i, t, posicaoMenor, tamanhoMenor;
 	
 	printf("Digite 10 nomes para ordena-los em ordem crescente: \n");
