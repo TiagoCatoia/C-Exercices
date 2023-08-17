@@ -33,7 +33,3 @@ main(){
 		nomes[posicaoMenor][0] = '\0';
 	}
 }
-/*
-Também podemos usar a função strcmp() para comparar as strings com base na ordem alfabética.
-Porém, precisaria criar um loop para encontrar a menor string em vez de comparar seus comprimentos.
-*/
