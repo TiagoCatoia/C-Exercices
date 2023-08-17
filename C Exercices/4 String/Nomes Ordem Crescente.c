@@ -3,7 +3,7 @@
 #include <string.h>
 
 /*  EXERCICIO PARA TREINAR
-FaÃ§a um programa que leia 10 nomes, ordene-os de
+Faça um programa que leia 10 nomes, ordene-os de
 forma crescente de tamanho.
 */
 
